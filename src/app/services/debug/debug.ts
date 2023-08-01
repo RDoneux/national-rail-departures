@@ -6,7 +6,6 @@ import { isDevMode } from '@angular/core';
 export const debug = (namespace: string) => dbg(`NRD:${namespace}`);
 
 export function debugInit(): void {
-  
   dbg.enable(
     environment.debug.map((namespace: string) => `NRD:${namespace}`).join(',')
   );

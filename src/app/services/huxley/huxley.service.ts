@@ -7,13 +7,21 @@ import { HuxleyRequest } from './huxley-request';
   providedIn: 'root',
 })
 export class HuxleyService {
+  private _baseURL: string = 'https://huxley2.azurewebsites.net';
+
   constructor(private http: HttpClient) {}
+
+  //TODO: provide return types for observables
 
   /** Makes an http request to the endpoint generated from the huxleyRequest paramter.
    * @returns Observable<any>
    * @param huxleyRequest See also {@link HuxleyRequest}
    */
   getInformation(huxleyRequest: HuxleyRequest): Observable<any> {
-    return this.http.get(huxleyRequest.getRequestURL());
+    return this.http.get(this._baseURL + huxleyRequest.getRequestURL());
+  }
+
+  getStationByName(stationName: string): Observable<any> {
+    return this.http.get(`${this._baseURL}/crs/${stationName}`);
   }
 }

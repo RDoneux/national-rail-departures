@@ -1,0 +1,28 @@
+<div class="station-lookup__input-wrapper">
+  <input
+    #stationLookupInput
+    type="text"
+    class="station-lookup__input"
+    [placeholder]="placeholder"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onSearchTermChange($event)"
+    (click)="onInputSelected(stationLookupInput)"
+  />
+  <app-loading-spinner
+    [show]="loading"
+    class="station-lookup__loading-spinner"
+  ></app-loading-spinner>
+</div>
+<ul
+  *ngIf="showSearchResults"
+  class="station-lookup__result-list"
+>
+  <li class="station-lookup__no-results" *ngIf="noResults">No Results</li>
+  <li
+    class="station-lookup__result"
+    *ngFor="let result of searchResults"
+    (click)="onResultSelected(result)"
+  >
+    {{ result.stationName }}
+  </li>
+</ul>

@@ -11,8 +11,6 @@ import { Board, CRS, Filter } from './huxley.types';
  */
 
 export class HuxleyRequest {
-  private _baseURL: string = 'https://huxley2.azurewebsites.net';
-
   private _board!: Board;
   private _fromStation!: CRS;
   private _filter!: Filter;
@@ -30,7 +28,7 @@ export class HuxleyRequest {
   }
 
   public getRequestURL(): string {
-    let request: string = `${this._baseURL}/${this._board}/${this._fromStation}/`;
+    let request: string = `/${this._board}/${this._fromStation}/`;
     if (this._filter) {
       request = request.concat(
         `${this._filter.filterType}/${this._filter.destinationStation}/`

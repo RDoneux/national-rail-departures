@@ -1,0 +1,57 @@
+@import 'variables';
+
+$component-width: 80%;
+
+.station-lookup__input-wrapper {
+    position: relative;
+    width: $component-width;
+
+
+    .station-lookup__input {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.2rem;
+        color: $text-colour-light;
+        background: $foreground-colour;
+        border: none;
+        outline: none;
+    }
+
+    .station-lookup__loading-spinner {
+        position: absolute;
+        right: 13px;
+        top: calc(50% - 13px);
+
+    }
+}
+
+.station-lookup__result-list {
+    background: $foreground-colour-highlight;
+    width: $component-width;
+    margin: 0;
+    padding: 0;
+    padding: 1rem 0;
+
+    max-height: 250px;
+    overflow-y: auto;
+
+    .station-lookup__result {
+        list-style: none;
+        padding: .5rem 1rem;
+        font-size: 1.2rem;
+        color: $text-colour-dark;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $foreground-colour;
+            color: $text-colour-light;
+        }
+    }
+
+    .station-lookup__no-results {
+        list-style: none;
+        padding: .5rem 1rem;
+        color: $text-colour-dark-disabled;
+        font-size: 1.2rem;
+    }
+}

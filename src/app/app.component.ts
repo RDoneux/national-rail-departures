@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HuxleyService } from './services/huxley/huxley.service';
 import { HuxleyRequest } from './services/huxley/huxley-request';
 import { debugInit } from './services/debug/debug';
+import { IStationLookupResult } from './components/station-lookup/i-station-lookup-result';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     debugInit();
+  }
+
+  onStationSelected(event: IStationLookupResult) {
+    console.log(event);
   }
 
   constructor(private huxley: HuxleyService) {
@@ -27,7 +32,7 @@ export class AppComponent implements OnInit {
       )
       .subscribe({
         next: (result: any) => {
-          console.log(result);
+          // console.log(result);
         },
       });
   }

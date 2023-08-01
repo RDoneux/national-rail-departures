@@ -1,0 +1,38 @@
+@import 'variables';
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(359deg)
+    }
+}
+
+.loading-spinner__wrapper {
+    position: relative;
+
+    .loading-spinner__container {
+        border: 3px solid $accent-colour;
+        border-radius: 50%;
+        top: 0;
+        left: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .loading-spinner__inner {
+        top: 0;
+        left: 0;
+        position: absolute;
+        border: 3px solid $text-colour-light;
+        border-top: 3px solid transparent;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+
+        animation: spin 2000ms ease-in-out infinite;
+    }
+}

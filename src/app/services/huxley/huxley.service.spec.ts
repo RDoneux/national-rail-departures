@@ -15,7 +15,6 @@ describe('HuxleyService', () => {
   });
 
   describe('HuxleyRequest', () => {
-    const baseURL: string = 'https://huxley2.azurewebsites.net';
     it('should create Huxley Request', () => {
       const huxleyRequest: HuxleyRequest = HuxleyRequest.builder()
         .board('departures')
@@ -25,12 +24,12 @@ describe('HuxleyService', () => {
         .build();
 
       expect(huxleyRequest.getRequestURL()).toEqual(
-        `${baseURL}/departures/GLD/from/WOK/1`
+        `/departures/GLD/from/WOK/1`
       );
     });
     it('should use default values when compulsory values are not provided', () => {
       const huxleyRequest: HuxleyRequest = HuxleyRequest.builder().build();
-      expect(huxleyRequest.getRequestURL()).toEqual(`${baseURL}/all/CLJ/`);
+      expect(huxleyRequest.getRequestURL()).toEqual(`/all/CLJ/`);
     });
     it('should create Huxley Request Builder', () => {
       const huxleyBuilderRequest: HuxleyRequestBuilder = HuxleyRequest.builder()
