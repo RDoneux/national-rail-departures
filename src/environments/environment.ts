@@ -1,5 +1,6 @@
 import { IEnvironment } from "./i-environment";
 
 export const environment: IEnvironment = {
-    debug: []
+    debug: [],
+    googleMapsApiKey: '<google-maps-api-key>'
 };

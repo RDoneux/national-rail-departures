@@ -8,15 +8,13 @@
     (ngModelChange)="onSearchTermChange($event)"
     (click)="onInputSelected(stationLookupInput)"
   />
+  <span (click)="findNearestStation()">find location</span>
   <app-loading-spinner
     [show]="loading"
     class="station-lookup__loading-spinner"
   ></app-loading-spinner>
 </div>
-<ul
-  *ngIf="showSearchResults"
-  class="station-lookup__result-list"
->
+<ul *ngIf="showSearchResults" class="station-lookup__result-list">
   <li class="station-lookup__no-results" *ngIf="noResults">No Results</li>
   <li
     class="station-lookup__result"

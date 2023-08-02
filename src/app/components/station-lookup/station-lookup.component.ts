@@ -12,7 +12,9 @@ import { HuxleyService } from 'src/app/services/huxley/huxley.service';
 import { ReplaySubject, Subject, debounce, interval } from 'rxjs';
 import { IStationLookupResult } from './i-station-lookup-result';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { environment } from 'src/environments/environment.development';
 
+declare var google: any;
 @Component({
   selector: 'app-station-lookup',
   standalone: true,
@@ -31,6 +33,9 @@ export class StationLookupComponent implements OnInit {
   public loading: boolean = false;
   public noResults: boolean = false;
 
+  public key = environment.googleMapsApiKey;
+
+  private location!: GeolocationPosition;
   private searchTermSubscription: Subject<string> = new ReplaySubject();
   constructor(private huxley: HuxleyService, private elementRef: ElementRef) {}
 
@@ -42,6 +47,12 @@ export class StationLookupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    navigator.geolocation.getCurrentPosition(
+      (location: GeolocationPosition) => {
+        this.location = location;
+      }
+    );
+
     this.searchTermSubscription.pipe(debounce(() => interval(500))).subscribe({
       next: (value: string) => {
         this.loading = true;
@@ -70,10 +81,33 @@ export class StationLookupComponent implements OnInit {
     this.searchTermSubscription.next(event);
   }
 
-  onResultSelected(event: IStationLookupResult) {
+  onResultSelected(event: IStationLookupResult): void {
     this.closeDropdown();
     this.searchTerm = event.stationName;
     this.selectedStation.emit(event);
+  }
+
+  findNearestStation(): void {
+    const map = new google.maps.Map(document.createElement('div'));
+    const request = {
+      location: new google.maps.LatLng(
+        this.location.coords.latitude,
+        this.location.coords.longitude
+      ),
+      radius: 5000,
+      types: ['train_station'],
+    };
+
+    new google.maps.places.PlacesService(map).nearbySearch(
+      request,
+      (results: any, status: any) => {
+        this.huxley.getStationByName(results[0].name.toLowerCase()).subscribe({
+          next: (response: IStationLookupResult[]) => {
+            this.searchTerm = response[0].stationName;
+          },
+        });
+      }
+    );
   }
 
   private closeDropdown(): void {
