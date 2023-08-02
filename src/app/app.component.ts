@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
     debugInit();
   }
 
+  //TEST CODE
+
   onStationSelected(event: IStationLookupResult) {
     console.log(event);
   }
@@ -26,8 +28,9 @@ export class AppComponent implements OnInit {
         HuxleyRequest.builder()
           .board('departures')
           .fromStation('GLD')
-          .filter({ filterType: 'to', destinationStation: 'WOK' })
+          .filter({ filterType: 'to', destinationStation: 'PHR' })
           .requestedRows(10)
+          .expand(true)
           .build()
       )
       .subscribe({

@@ -15,12 +15,14 @@ export class HuxleyRequest {
   private _fromStation!: CRS;
   private _filter!: Filter;
   private _requestedRows!: number;
+  private _expand!: boolean;
 
   constructor(builder: HuxleyRequestBuilder) {
     this._board = builder.getBoard();
     this._fromStation = builder.getFromStation();
     this._filter = builder.getFilter();
     this._requestedRows = builder.getRequestedRows();
+    this._expand = builder.getExpand();
   }
 
   public static builder(): HuxleyRequestBuilder {
@@ -37,6 +39,9 @@ export class HuxleyRequest {
     if (this._requestedRows) {
       request = request.concat(this._requestedRows.toString());
     }
+    if (this._expand) {
+      request = request.concat(`?expand=${this._expand}`);
+    }
     return request;
   }
 }
@@ -46,6 +51,7 @@ export class HuxleyRequestBuilder {
   private _fromStation!: CRS;
   private _filter!: Filter;
   private _requestedRows!: number;
+  private _expand!: boolean;
 
   constructor() {
     //EMTPY
@@ -82,7 +88,12 @@ export class HuxleyRequestBuilder {
     return this;
   }
 
-  getBoard(): Board {
+  expand(expand: boolean): HuxleyRequestBuilder {
+    this._expand = expand;
+    return this;
+  }
+
+  public getBoard(): Board {
     return this._board;
   }
 
@@ -96,5 +107,9 @@ export class HuxleyRequestBuilder {
 
   public getRequestedRows(): number {
     return this._requestedRows;
+  }
+
+  public getExpand(): boolean {
+    return this._expand;
   }
 }

@@ -1,0 +1,23 @@
+@import 'variables';
+
+.find-nearest-station__container {
+    position: relative;
+
+    .material-symbols-outlined {
+        color: $text-colour-light;
+        font-size: 26px;
+        opacity: 1;
+        cursor: pointer;
+
+        transition: opacity 300ms linear;
+
+        &.loading {
+            opacity: 0;
+        }
+    }
+
+    app-loading-spinner {
+        position: absolute;
+        left: 0;
+    }
+}

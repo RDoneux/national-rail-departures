@@ -1,5 +1,8 @@
 <div
-  @enterAnimation 
+  [@enterAnimation]="{
+    value: ':enter',
+    params: { animationTime: fadeInTime, delay: fadeInDelay }
+  }"
   *ngIf="show"
   [style.width]="size"
   [style.height]="size"

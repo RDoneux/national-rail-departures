@@ -10,11 +10,18 @@ $component-width: 80%;
     .station-lookup__input {
         width: 100%;
         padding: 1rem;
+        padding-left: 50px;
         font-size: 1.2rem;
         color: $text-colour-light;
         background: $foreground-colour;
         border: none;
         outline: none;
+    }
+
+    app-find-nearest-station {
+        position: absolute;
+        left: 13px;
+        top: calc(50% - 13px);
     }
 
     .station-lookup__loading-spinner {

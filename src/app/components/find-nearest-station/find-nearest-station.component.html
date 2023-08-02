@@ -1,0 +1,14 @@
+<div class="find-nearest-station__container">
+  <span
+    class="material-symbols-outlined"
+    [class.loading]="loading"
+    (click)="findNearestStation()"
+  >
+    {{ error ? "location_disabled" : "location_searching" }}
+  </span>
+  <app-loading-spinner
+    [show]="loading"
+    [fadeInTime]="300"
+    [fadeInDelay]="300"
+  ></app-loading-spinner>
+</div>
