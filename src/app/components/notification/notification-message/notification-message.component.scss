@@ -1,0 +1,69 @@
+@import 'variables';
+
+:host {
+    display: block;
+    width: 100%;
+}
+
+.notification__container {
+
+    width: 100%;
+    padding: 10px;
+    box-shadow: -2px 2px 4px #111;
+    color: $text-colour-light;
+
+    display: grid;
+    grid-template-columns: 1fr 50px;
+
+    span {
+        grid-column: 2;
+        grid-row: 1/span 2;
+        font-size: 60px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: center;
+        justify-self: center;
+        position: relative;
+        top: -5px;
+        cursor: pointer;
+    }
+
+
+    h1 {
+        font-size: 16px;
+        margin: 0;
+        grid-column: 1;
+        grid-row: 1
+    }
+
+    p {
+        font-size: 14px;
+        margin: 0;
+        margin-top: 5px;
+        grid-column: 1;
+    }
+
+    &.notification__info {
+        background: $info-colour;
+        border-left: 5px solid darken($info-colour, 10%)
+    }
+
+    &.notification__error {
+        background: $error-colour;
+        border-left: 5px solid darken($error-colour, 10%)
+    }
+
+    &.notification__warning {
+        background: $warning-colour;
+        border-left: 5px solid darken($warning-colour, 10%);
+        color: $text-colour-dark;
+    }
+
+    &.notification__success {
+        background: $success-colour;
+        border-left: 5px solid darken($success-colour, 10%);
+    }
+}

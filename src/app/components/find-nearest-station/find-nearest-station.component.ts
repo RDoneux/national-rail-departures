@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IStationLookupResult } from '../station-lookup/i-station-lookup-result';
 import { HuxleyService } from 'src/app/services/huxley/huxley.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { MessageService } from 'src/app/services/message/message.service';
+import { noStationFound } from './find-nearest-station.data';
 
 declare var google: any;
 
@@ -20,7 +22,10 @@ export class FindNearestStationComponent implements OnInit {
   public loading: boolean = false;
   public error: boolean = false;
 
-  constructor(private huxley: HuxleyService) {}
+  constructor(
+    private huxley: HuxleyService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     navigator.permissions
@@ -50,10 +55,15 @@ export class FindNearestStationComponent implements OnInit {
         new google.maps.places.PlacesService(map).nearbySearch(
           request,
           (results: any, status: any) => {
-            if(!results.length) {
+            if (!results.length) {
+              this.messageService.send({
+                stream: 'notification',
+                sender: this.constructor.name,
+                payload: noStationFound,
+              });
               this.loading = false;
               return;
-            };
+            }
             this.huxley
               .getStationByName(results[0].name.toLowerCase())
               .subscribe({

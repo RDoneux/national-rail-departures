@@ -1,0 +1,8 @@
+<div
+  class="notification__container 
+  notification__{{ notification.type ?? 'info' }}"
+>
+  <span (click)="onClose()">&times;</span>
+  <h1>{{ notification.title }}</h1>
+  <p>{{ notification.message }}</p>
+</div>

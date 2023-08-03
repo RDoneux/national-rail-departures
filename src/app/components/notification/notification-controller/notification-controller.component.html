@@ -1,0 +1,8 @@
+<ul>
+  <li @enterLeaveAnimation *ngFor="let notification of notifications">
+    <app-notification-message
+      [notification]="notification"
+      (closed)="onMessageClosed($event)"
+    ></app-notification-message>
+  </li>
+</ul>

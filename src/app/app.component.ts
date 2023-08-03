@@ -3,6 +3,7 @@ import { HuxleyService } from './services/huxley/huxley.service';
 import { HuxleyRequest } from './services/huxley/huxley-request';
 import { debugInit } from './services/debug/debug';
 import { IStationLookupResult } from './components/station-lookup/i-station-lookup-result';
+import { MessageService } from './services/message/message.service';
 
 @Component({
   selector: 'app-root',
@@ -18,11 +19,18 @@ export class AppComponent implements OnInit {
 
   //TEST CODE
 
+  // addNotification(): void {
+  //   this.messageService.send({stream: 'notification', sender: this.constructor.name, payload: {
+  //     title: 'Test Notification',
+  //     message: 'This is the test notification' 
+  //   }})
+  // }
+
   onStationSelected(event: IStationLookupResult) {
     console.log(event);
   }
 
-  constructor(private huxley: HuxleyService) {
+  constructor(private huxley: HuxleyService, private messageService: MessageService) {
     this.huxley
       .getInformation(
         HuxleyRequest.builder()

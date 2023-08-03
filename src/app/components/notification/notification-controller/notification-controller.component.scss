@@ -1,0 +1,17 @@
+ul {
+    margin: 0;
+    padding: 0;
+
+    position: fixed;
+    right: 10px;
+    top: 15px;
+
+    width: 80%;
+    li{
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin: 10px 0;
+    }
+}
