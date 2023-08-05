@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "national-rail-departures",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

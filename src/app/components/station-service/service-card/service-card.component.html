@@ -1,0 +1,41 @@
+<div
+  class="service-card__container"
+  [class.selected]="selected"
+  (click)="onCardClick()"
+>
+  <section class="service-card__basic-info-wrapper">
+    <h1 class="service-card__final-destination">
+      {{ service.destination[0].locationName }}
+    </h1>
+    <h5 class="service-card__calling-at" *ngIf="requestStation">
+      Calling at: {{ requestStation.stationName }}
+    </h5>
+
+    <h1 class="service-card__departure-time">{{ service.std }}</h1>
+    <h5 class="service-card__target-departure-time">{{ service.sta }}</h5>
+
+    <h5
+      class="service-card__platform-title"
+      [style.grid-row]="service.platform ? '1' : '2 / span 3'"
+    >
+      Platform{{ service.platform ? ":" : " to be announced" }}
+    </h5>
+    <h1 class="service-card__platform">{{ service.platform }}</h1>
+  </section>
+  <section class="service-card__stop-information">
+    <h5>Calling at:</h5>
+    <ul>
+      <li
+        *ngFor="
+          let callingPoint of service.subsequentCallingPoints[0].callingPoint
+        "
+        [class.target-destination]="
+          callingPoint.locationName ===
+          (requestStation ? requestStation.stationName : '')
+        "
+      >
+        <span>{{ callingPoint.locationName }}</span>
+      </li>
+    </ul>
+  </section>
+</div>

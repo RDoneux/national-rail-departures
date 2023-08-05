@@ -1,6 +1,8 @@
 <div class="station-lookup__input-wrapper">
   <input
     #stationLookupInput
+    [name]="name"
+    [id]="name"
     type="text"
     class="station-lookup__input"
     [placeholder]="placeholder"
@@ -8,9 +10,9 @@
     (ngModelChange)="onSearchTermChange($event)"
     (click)="onInputSelected(stationLookupInput)"
   />
-  <!-- <span (click)="findNearestStation()">find location</span> -->
   <app-find-nearest-station
-    (nearestStation)="onResultSelected($event)"
+    [findNearestStationOnLoad]="findNearestStationOnLoad"
+    (nearestStation)="showSearchResults ? '' : onResultSelected($event)"
   ></app-find-nearest-station>
   <app-loading-spinner
     [show]="loading"

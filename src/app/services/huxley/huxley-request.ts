@@ -13,7 +13,7 @@ import { Board, CRS, Filter } from './huxley.types';
 export class HuxleyRequest {
   private _board!: Board;
   private _fromStation!: CRS;
-  private _filter!: Filter;
+  private _filter!: Filter | undefined;
   private _requestedRows!: number;
   private _expand!: boolean;
 
@@ -49,7 +49,7 @@ export class HuxleyRequest {
 export class HuxleyRequestBuilder {
   private _board!: Board;
   private _fromStation!: CRS;
-  private _filter!: Filter;
+  private _filter!: Filter | undefined;
   private _requestedRows!: number;
   private _expand!: boolean;
 
@@ -78,7 +78,7 @@ export class HuxleyRequestBuilder {
     return this;
   }
 
-  filter(filter: Filter): HuxleyRequestBuilder {
+  filter(filter: Filter | undefined): HuxleyRequestBuilder {
     this._filter = filter;
     return this;
   }
@@ -101,7 +101,7 @@ export class HuxleyRequestBuilder {
     return this._fromStation;
   }
 
-  public getFilter(): Filter {
+  public getFilter(): Filter | undefined {
     return this._filter;
   }
 

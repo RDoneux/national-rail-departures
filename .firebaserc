@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "national-rail-departures": {
+      "hosting": {
+        "national-rail-departures": [
+          "national-rail-departures"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "national-rail-departures"
+  }
+}

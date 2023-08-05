@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IStationLookupResult } from '../station-lookup/i-station-lookup-result';
 import { HuxleyService } from 'src/app/services/huxley/huxley.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { MessageService } from 'src/app/services/message/message.service';
 import { noStationFound } from './find-nearest-station.data';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 declare var google: any;
 
@@ -16,6 +17,8 @@ declare var google: any;
   styleUrls: ['./find-nearest-station.component.scss'],
 })
 export class FindNearestStationComponent implements OnInit {
+  @Input() findNearestStationOnLoad: boolean = false;
+
   @Output() nearestStation: EventEmitter<IStationLookupResult> =
     new EventEmitter();
 
@@ -24,7 +27,8 @@ export class FindNearestStationComponent implements OnInit {
 
   constructor(
     private huxley: HuxleyService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -35,10 +39,22 @@ export class FindNearestStationComponent implements OnInit {
           this.error = true;
         }
       });
+    if (this.findNearestStationOnLoad) this.findNearestStation();
   }
 
   findNearestStation(): void {
     this.loading = true;
+
+    const savedNearestStation: string | null =
+      this.localStorageService.get('nearest-station');
+
+    if (savedNearestStation) {
+      this.nearestStation.emit(
+        JSON.parse(savedNearestStation) as IStationLookupResult
+      );
+      this.loading = false;
+    }
+
     navigator.geolocation.getCurrentPosition(
       (location: GeolocationPosition) => {
         this.error = false;
@@ -69,6 +85,10 @@ export class FindNearestStationComponent implements OnInit {
               .subscribe({
                 next: (response: IStationLookupResult[]) => {
                   this.nearestStation.emit(response[0]);
+                  this.localStorageService.save(
+                    'nearest-station',
+                    JSON.stringify(response[0])
+                  );
                   this.loading = false;
                 },
               });

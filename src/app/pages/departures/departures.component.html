@@ -1,0 +1,30 @@
+<section class="departures__container">
+  <label for="from-station">From:</label>
+  <app-station-lookup
+    name="from-station"
+    [station]="fromStation"
+    [findNearestStationOnLoad]="true"
+    (selectedStation)="onFromStationChange($event)"
+  ></app-station-lookup>
+  <span class="material-symbols-outlined" (click)="swapInputs()">
+    swap_vert
+  </span>
+  <label for="to-station">To:</label>
+  <app-station-lookup
+    name="to-station"
+    [station]="toStation"
+    (selectedStation)="onToStationChange($event)"
+  ></app-station-lookup>
+
+  <app-service-card
+    *ngFor="let trainService of trainServices"
+    [service]="trainService"
+    [requestStation]="toStation"
+  ></app-service-card>
+
+  <!-- <pre style="color: #fff" *ngFor="let trainService of trainServices"
+    >{{ trainService.destination[0].locationName }} | {{
+      trainService.std
+    }} | {{ trainService.platform }}</pre
+  > -->
+</section>

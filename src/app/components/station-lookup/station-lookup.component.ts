@@ -1,10 +1,13 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -28,6 +31,13 @@ import { FindNearestStationComponent } from '../find-nearest-station/find-neares
   styleUrls: ['./station-lookup.component.scss'],
 })
 export class StationLookupComponent implements OnInit {
+  @Input() name!: string;
+  @Input() findNearestStationOnLoad: boolean = false;
+
+  @Input() public set station(value: IStationLookupResult) {
+    this.onResultSelected(value);
+  }
+
   @Output() selectedStation: EventEmitter<IStationLookupResult> =
     new EventEmitter();
 
@@ -40,8 +50,8 @@ export class StationLookupComponent implements OnInit {
 
   public key = environment.googleMapsApiKey;
 
-  private location!: GeolocationPosition;
   private searchTermSubscription: Subject<string> = new ReplaySubject();
+  private selectedStationModel: IStationLookupResult | undefined;
   constructor(private huxley: HuxleyService, private elementRef: ElementRef) {}
 
   @HostListener('document:click', ['$event'])
@@ -80,9 +90,11 @@ export class StationLookupComponent implements OnInit {
     this.searchTermSubscription.next(event);
   }
 
-  onResultSelected(event: IStationLookupResult): void {
+  onResultSelected(event: IStationLookupResult | undefined): void {
+    if (event?.crsCode === this.selectedStationModel?.crsCode) return;
     this.closeDropdown();
-    this.searchTerm = event.stationName;
+    this.searchTerm = event?.stationName ?? '';
+    this.selectedStationModel = event;
     this.selectedStation.emit(event);
   }
 

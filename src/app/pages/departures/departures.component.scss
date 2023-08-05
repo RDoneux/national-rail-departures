@@ -1,0 +1,21 @@
+@import 'variables';
+
+.departures__container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    label {
+        text-align: left;
+        color: $text-colour-light;
+        width: 100%;
+    }
+
+    .material-symbols-outlined {
+        color: $text-colour-light;
+        cursor: pointer;
+    }
+}
