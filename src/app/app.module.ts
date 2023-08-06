@@ -16,7 +16,7 @@ import { NotificationModule } from './components/notification/notification.modul
     AppRoutingModule,
     HttpClientModule,
     StationLookupComponent,
-    NotificationModule
+    NotificationModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -4,6 +4,7 @@ import { HuxleyRequest } from './services/huxley/huxley-request';
 import { debugInit } from './services/debug/debug';
 import { IStationLookupResult } from './components/station-lookup/i-station-lookup-result';
 import { MessageService } from './services/message/message.service';
+import { RouteCalculatorService } from './services/route-calculator/route-calculator.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
   // addNotification(): void {
   //   this.messageService.send({stream: 'notification', sender: this.constructor.name, payload: {
   //     title: 'Test Notification',
-  //     message: 'This is the test notification' 
+  //     message: 'This is the test notification'
   //   }})
   // }
 
@@ -30,21 +31,29 @@ export class AppComponent implements OnInit {
     console.log(event);
   }
 
-  constructor(private huxley: HuxleyService, private messageService: MessageService) {
-    this.huxley
-      .getInformation(
-        HuxleyRequest.builder()
-          .board('departures')
-          .fromStation('GLD')
-          .filter({ filterType: 'to', destinationStation: 'PHR' })
-          .requestedRows(10)
-          .expand(true)
-          .build()
-      )
-      .subscribe({
-        next: (result: any) => {
-          // console.log(result);
-        },
-      });
+  constructor(
+    private huxley: HuxleyService,
+    private messageService: MessageService,
+    private routeCalcuator: RouteCalculatorService
+  ) {
+    setTimeout(() => {
+      this.routeCalcuator.doTheThink();
+    }, 4000);
+
+    // this.huxley
+    //   .getInformation(
+    //     HuxleyRequest.builder()
+    //       .board('departures')
+    //       .fromStation('GLD')
+    //       .filter({ filterType: 'to', destinationStation: 'PHR' })
+    //       .requestedRows(10)
+    //       .expand(true)
+    //       .build()
+    //   )
+    //   .subscribe({
+    //     next: (result: any) => {
+    //       // console.log(result);
+    //     },
+    //   });
   }
 }

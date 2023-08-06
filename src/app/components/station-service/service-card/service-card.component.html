@@ -11,8 +11,15 @@
       Calling at: {{ requestStation.stationName }}
     </h5>
 
-    <h1 class="service-card__departure-time">{{ service.std }}</h1>
-    <h5 class="service-card__target-departure-time">{{ service.sta }}</h5>
+    <h1
+      class="service-card__departure-time"
+      [style.text-decoration]="
+        service.etd.toLowerCase() !== 'on time' ? 'line-through' : 'none'
+      "
+    >
+      {{ service.std }}
+    </h1>
+    <h5 class="service-card__target-departure-time">{{ service.etd }}</h5>
 
     <h5
       class="service-card__platform-title"

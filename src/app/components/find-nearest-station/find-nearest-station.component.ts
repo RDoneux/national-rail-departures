@@ -43,6 +43,7 @@ export class FindNearestStationComponent implements OnInit {
   }
 
   findNearestStation(): void {
+
     this.loading = true;
 
     const savedNearestStation: string | null =
@@ -57,6 +58,7 @@ export class FindNearestStationComponent implements OnInit {
 
     navigator.geolocation.getCurrentPosition(
       (location: GeolocationPosition) => {
+
         this.error = false;
         const map = new google.maps.Map(document.createElement('div'));
         const request = {
