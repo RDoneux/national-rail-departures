@@ -6,6 +6,8 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 import { MessageService } from 'src/app/services/message/message.service';
 import { noStationFound } from './find-nearest-station.data';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment.development';
 
 declare var google: any;
 
@@ -28,7 +30,8 @@ export class FindNearestStationComponent implements OnInit {
   constructor(
     private huxley: HuxleyService,
     private messageService: MessageService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +46,6 @@ export class FindNearestStationComponent implements OnInit {
   }
 
   findNearestStation(): void {
-
     this.loading = true;
 
     const savedNearestStation: string | null =
@@ -58,33 +60,23 @@ export class FindNearestStationComponent implements OnInit {
 
     navigator.geolocation.getCurrentPosition(
       (location: GeolocationPosition) => {
-
         this.error = false;
-        const map = new google.maps.Map(document.createElement('div'));
-        const request = {
-          location: new google.maps.LatLng(
-            location.coords.latitude,
-            location.coords.longitude
-          ),
-          radius: 5000,
-          types: ['train_station'],
-        };
-
-        new google.maps.places.PlacesService(map).nearbySearch(
-          request,
-          (results: any, status: any) => {
-            if (!results.length) {
-              this.messageService.send({
-                stream: 'notification',
-                sender: this.constructor.name,
-                payload: noStationFound,
-              });
-              this.loading = false;
-              return;
-            }
-            this.huxley
-              .getStationByName(results[0].name.toLowerCase())
-              .subscribe({
+        this.http
+          .get('https://national-rail-departures-be.web.app/google-maps', {
+            params: {
+              key: environment.googleMapsApiKey,
+              location: `${location.coords.latitude},${location.coords.longitude}`,
+            },
+          })
+          .subscribe({
+            next: (response: any) => {
+              if (!response.results.length)
+                this.messageService.send({
+                  stream: 'notification',
+                  sender: this.constructor.name,
+                  payload: noStationFound,
+                });
+              this.huxley.getStationByName(response.results[0].name).subscribe({
                 next: (response: IStationLookupResult[]) => {
                   this.nearestStation.emit(response[0]);
                   this.localStorageService.save(
@@ -94,8 +86,8 @@ export class FindNearestStationComponent implements OnInit {
                   this.loading = false;
                 },
               });
-          }
-        );
+            },
+          });
       },
       () => {
         this.loading = false;
